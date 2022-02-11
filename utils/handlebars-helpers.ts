@@ -1,5 +1,7 @@
+type Entries = [string, number];
+
 export const handlebarsHelpers = {
-    findPrice: (entries: number[][], selectedItem) => {
+    findPrice: (Entries, selectedItem) => {
         const found = entries.find(el => el[0] === selectedItem);
 
         if (!found) {
