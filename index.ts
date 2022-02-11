@@ -1,13 +1,15 @@
 import * as express  from 'express';
 import * as cookieParser from 'cookie-parser';
+import {json, static as expressStatic} from "express";
 import * as hbs from 'express-handlebars';
-import {HomeRouter} from "./routes/home";
-import {ConfiguratorRouter} from "./routes/configurator";
-import {OrderRouter} from "./routes/order";
+import {HomeRouter} from "./routers/home";
+import {ConfiguratorRouter} from "./routers/configurator";
+import {OrderRouter} from "./routers/order";
 import {handlebarsHelpers} from "./utils/handlebars-helpers";
 import {COOKIE_BASES, COOKIE_ADDONS} from"./data/cookies-data";
 
-class CookieMakerApp {
+export class CookieMakerApp {
+    app: express.Application;
     constructor() {
         this._loadData();
         this._configureApp();
@@ -18,8 +20,8 @@ class CookieMakerApp {
     _configureApp() {
         this.app = express();
 
-        this.app.use(express.json());
-        this.app.use(express.static('public'));
+        this.app.use(json());
+        this.app.use(expressStatic('public'));
         this.app.use(cookieParser());
         this.app.engine('.hbs', hbs({
             extname: '.hbs',
