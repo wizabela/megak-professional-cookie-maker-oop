@@ -14,7 +14,7 @@ export const handlebarsHelpers = {
 
     pricify: (price: number): string => price.toFixed(2),
 
-    isNotInArray: (array: any[], element:any): boolean => !array.includes(element),
+    isNotInArray: <T>(array: T[], element: T): boolean => !array.includes(element),
 
-    isInArray: (array: any[], element:any): boolean => array.includes(element),
+    isInArray: <T>(array: T[], element: T): boolean => array.includes(element),
 };
