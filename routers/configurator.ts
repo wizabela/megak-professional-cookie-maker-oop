@@ -2,7 +2,7 @@ import {Request, Response, Router} from "express";
 import {CookieMakerApp} from "../index";
 
 export class ConfiguratorRouter {
-    private router: Router = Router();
+    public readonly router: Router = Router();
 
     constructor(
         private cmapp: CookieMakerApp,
@@ -33,7 +33,7 @@ export class ConfiguratorRouter {
     private addAddon = (req: Request, res: Response) => {
         const {addonName} = req.params;
 
-        if (!this.cmapp.data.COOKIE_ADDONS[addonName]) {
+        if (!(this.cmapp.data.COOKIE_ADDONS as Record<string, number>)[addonName]) {
             return this.cmapp.showErrorPage(res, `There is no such addon as ${addonName}.`);
         }
 
