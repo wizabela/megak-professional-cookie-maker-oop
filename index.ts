@@ -16,11 +16,11 @@ export class CookieMakerApp {
             COOKIE_ADDONS,
         };
 
-    constructor() {
-        this._configureApp();
-        this._setRoutes();
-        this._run();
-    }
+    // constructor() {
+    //     this._configureApp();
+    //     this._setRoutes();
+    //     this._run();
+    // }
 
     _configureApp(): void {
         this.app = express();
@@ -35,11 +35,11 @@ export class CookieMakerApp {
         this.app.set('view engine', '.hbs');
     }
 
-    _setRoutes(): void {
-        this.app.use('/', new HomeRouter(this).router);
-        this.app.use('/configurator', new ConfiguratorRouter(this).router);
-        this.app.use('/order', new OrderRouter(this).router);
-    }
+    // _setRoutes(): void {
+    //     this.app.use('/', new HomeRouter(this).router);
+    //     this.app.use('/configurator', new ConfiguratorRouter(this).router);
+    //     this.app.use('/order', new OrderRouter(this).router);
+    // }
 
     _run(): void {
         this.app.listen(3000, '0.0.0.0', () => {

@@ -10,18 +10,18 @@ export class ConfiguratorRouter {
         this.setUpRoutes();
     }
 
-    private setUpRoutes() {
+    private setUpRoutes(): void {
         this.router.get('/select-base/:baseName', this.selectBase);
         this.router.get('/add-addon/:addonName', this.addAddon);
         this.router.get('/delete-addon/:addonName', this.deleteAddon);
     }
 
-    private selectBase = (req: Request, res: Response) => {
+    private selectBase = (req: Request, res: Response): void => {
         const {baseName} = req.params;
 
-        // if (!this.cmapp.data.COOKIE_BASES[baseName]) {
-        //     return this.cmapp.showErrorPage(res, `There is no such base as ${baseName}.`);
-        // }
+        if (!(this.cmapp.data.COOKIE_BASES as Record<string, number>)[baseName]) {
+            return this.cmapp.showErrorPage(res, `There is no such base as ${baseName}.`);
+        }
 
         res
             .cookie('cookieBase', baseName)
@@ -30,7 +30,7 @@ export class ConfiguratorRouter {
             });
     };
 
-    private addAddon = (req: Request, res: Response) => {
+    private addAddon = (req: Request, res: Response): void => {
         const {addonName} = req.params;
 
         if (!(this.cmapp.data.COOKIE_ADDONS as Record<string, number>)[addonName]) {
@@ -52,7 +52,7 @@ export class ConfiguratorRouter {
             });
     };
 
-    private deleteAddon = (req: Request, res: Response) => {
+    private deleteAddon = (req: Request, res: Response): void => {
         const {addonName} = req.params;
 
         const oldAddons = this.cmapp.getAddonsFromReq(req);
