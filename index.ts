@@ -3,11 +3,11 @@ import * as cookieParser from 'cookie-parser';
 import {Application, json, Request, Response, static as expressStatic} from "express";
 import {engine} from "express-handlebars";
 import {ConfiguratorRouter} from "./routers/configurator";
-// import {OrderRouter} from "./routers/order";
 import {handlebarsHelpers} from "./utils/handlebars-helpers";
 import {COOKIE_BASES, COOKIE_ADDONS} from"./data/cookies-data";
 import {Entries} from "./types/entries";
 import {HomeRouter} from "./routers/home";
+import {OrderRouter} from "./routers/order";
 
 export class CookieMakerApp {
     private app: Application;
@@ -15,7 +15,7 @@ export class CookieMakerApp {
             COOKIE_BASES,
             COOKIE_ADDONS,
         };
-    private readonly routers = [HomeRouter, ConfiguratorRouter];
+    private readonly routers = [HomeRouter, ConfiguratorRouter, OrderRouter];
 
     constructor() {
         this._configureApp();
@@ -38,7 +38,8 @@ export class CookieMakerApp {
 
     _setRoutes(): void {
         for (const router of this.routers) {
-            this.app.use(router.urlPrefix, new router(this).router);
+            const obj = new router(this);
+            this.app.use(obj.urlPrefix, obj.router);
         }
     }
 
