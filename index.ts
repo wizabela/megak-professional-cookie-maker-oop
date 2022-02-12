@@ -2,12 +2,12 @@ import * as express  from 'express';
 import * as cookieParser from 'cookie-parser';
 import {Application, json, Request, Response, static as expressStatic} from "express";
 import {engine} from "express-handlebars";
-// import {HomeRouter} from "./routers/home";
 import {ConfiguratorRouter} from "./routers/configurator";
 // import {OrderRouter} from "./routers/order";
 import {handlebarsHelpers} from "./utils/handlebars-helpers";
 import {COOKIE_BASES, COOKIE_ADDONS} from"./data/cookies-data";
 import {Entries} from "./types/entries";
+import {HomeRouter} from "./routers/home";
 
 export class CookieMakerApp {
     private app: Application;
@@ -15,12 +15,13 @@ export class CookieMakerApp {
             COOKIE_BASES,
             COOKIE_ADDONS,
         };
+    private readonly routers = [HomeRouter, ConfiguratorRouter];
 
-    // constructor() {
-    //     this._configureApp();
-    //     this._setRoutes();
-    //     this._run();
-    // }
+    constructor() {
+        this._configureApp();
+        this._setRoutes();
+        this._run();
+    }
 
     _configureApp(): void {
         this.app = express();
@@ -35,14 +36,14 @@ export class CookieMakerApp {
         this.app.set('view engine', '.hbs');
     }
 
-    // _setRoutes(): void {
-    //     this.app.use('/', new HomeRouter(this).router);
-    //     this.app.use('/configurator', new ConfiguratorRouter(this).router);
-    //     this.app.use('/order', new OrderRouter(this).router);
-    // }
+    _setRoutes(): void {
+        for (const router of this.routers) {
+            this.app.use(router.urlPrefix, new router(this).router);
+        }
+    }
 
     _run(): void {
-        this.app.listen(3000, '0.0.0.0', () => {
+        this.app.listen(3000, '0.0.0.0', (): void => {
             console.log('Listening on  http://localhost:3000');
         });
     }
