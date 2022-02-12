@@ -8,6 +8,7 @@ import {COOKIE_BASES, COOKIE_ADDONS} from"./data/cookies-data";
 import {Entries} from "./types/entries";
 import {HomeRouter} from "./routers/home";
 import {OrderRouter} from "./routers/order";
+import {MyRouter} from "./types/my-router";
 
 export class CookieMakerApp {
     private app: Application;
@@ -38,7 +39,7 @@ export class CookieMakerApp {
 
     _setRoutes(): void {
         for (const router of this.routers) {
-            const obj = new router(this);
+            const obj: MyRouter = new router(this);
             this.app.use(obj.urlPrefix, obj.router);
         }
     }
